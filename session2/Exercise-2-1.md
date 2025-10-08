@@ -189,6 +189,6 @@ Provisioning can be regularly scheduled or prompted through a reload requisition
 In practice each requisition should be limited to around 5000 nodes.
 
 For more information on provisioning see [Provisioning Introduction](https://docs.opennms.com/horizon/33/operation/deep-dive/provisioning/introduction.html)
-and {provisioning integration](https://docs.opennms.com/horizon/33/operation/deep-dive/provisioning/integration.html)
+and [provisioning integration](https://docs.opennms.com/horizon/33/operation/deep-dive/provisioning/integration.html)
 
 We will cover provisioning and  requisitions in more detail in a later session. 
