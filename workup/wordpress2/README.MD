@@ -35,6 +35,7 @@ https://www.blueshoe.io/blog/bitnami-and-alternatives/
 
 bitnami example https://www.docker.com/blog/how-to-dockerize-wordpress/
 
+https://github.com/bitnami/containers/blob/main/bitnami/wordpress-nginx/6/debian-12/rootfs/opt/bitnami/scripts/libwordpress.sh
 
 ## nginx session storage
 
@@ -51,3 +52,4 @@ https://github.com/exo-docker/exo-nginx
 https://github.com/nezhar/wordpress-docker-compose/blob/master/docker-compose.yml
 
 
+https://blog.alphabravo.io/leveling-up-from-docker-compose-to-kubernetes-and-helm-with-wordpress/
