@@ -13,6 +13,10 @@ This session covers
 * Brief introduction to Drools
 * Brief introduction to Scriptd
 
+from minion 1 172.20.0.1 is the address of the load balancer on the guest operating system
+[root@netsnmp_1_1 /]# curl --insecure https://172.20.0.1/wordpress/
+
+curl http://wordpress1/wordpress/?p=1 | grep 'Local Wordpress By Docker'
 
 In this example we will introduce wordpress in a revised network configuration [docker-compose.yaml](../session7/minimal-minion-activemq/docker-compose.yaml)
 

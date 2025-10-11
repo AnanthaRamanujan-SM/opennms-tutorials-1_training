@@ -1,0 +1,45 @@
+<model-import xmlns="http://xmlns.opennms.org/xsd/config/model-import" date-stamp="2025-10-11T11:52:37.598-04:00" foreign-source="test-wordpress"
+   last-import="2025-10-11T11:53:14.416-04:00">
+   <node foreign-id="nginx" node-label="nginx">
+      <interface ip-addr="172.20.0.5" status="1" snmp-primary="N">
+         <monitored-service service-name="HTTP" />
+      </interface>
+   </node>
+   <node foreign-id="db" node-label="db">
+      <interface ip-addr="172.20.0.70" status="1" snmp-primary="N">
+         <monitored-service service-name="MySQL" />
+         <monitored-service service-name="ICMP" />
+      </interface>
+   </node>
+   <node foreign-id="wordpress1" node-label="wordpress1">
+      <interface ip-addr="172.20.0.81" status="1" snmp-primary="P">
+         <monitored-service service-name="ICMP" />
+      </interface>
+   </node>
+   <node foreign-id="wordpress2" node-label="wordpress2">
+      <interface ip-addr="172.20.0.82" status="1" snmp-primary="P">
+         <monitored-service service-name="ICMP" />
+      </interface>
+   </node>
+   <node foreign-id="wordpress3" node-label="wordpress3">
+      <interface ip-addr="172.20.0.83" status="1" snmp-primary="N" />
+      <monitored-service service-name="ICMP" />
+   </node>
+   <node location="Default" foreign-id="netsnmp_1_1" node-label="netsnmp_1_1">
+      <interface ip-addr="172.20.0.101" status="1" snmp-primary="P">
+         <monitored-service service-name="ICMP" />
+      </interface>
+   </node>
+   <node location="minion1-location" foreign-id="netsnmp_2_1" node-label="netsnmp_2_1">
+      <interface ip-addr="172.20.2.101" status="1" snmp-primary="P">
+         <monitored-service service-name="ICMP" />
+      </interface>
+   </node>
+   <node location="minion1-location" foreign-id="wordpress-load-balancer" node-label="wordpress-load-balancer">
+      <interface descr="host gateway from inside docker network" ip-addr="172.20.0.1" status="1" snmp-primary="N">
+         <monitored-service service-name="HTTPS">
+            <meta-data context="requisition" key="url" value="/wordpress/"/>
+         </monitored-service>
+      </interface>
+   </node>
+</model-import>
