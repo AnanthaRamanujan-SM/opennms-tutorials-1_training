@@ -4,21 +4,21 @@
 
 ## service 3 tier network
 
-Often sites are made scalable and more resiliant through load-balancing a number of servers. 
+Often sites are made scalable and more resilient through load-balancing a number of servers. 
 In this example we have installed three wordpress servers behind an NGINX load balancer.
 
-All the servers share the same MariaDB database which also maintains the session data across the servers.
+All the servers share the same MariaDB database which also maintains the user session data across the servers.
 
 ![alt text](../session2/images/examplenetwork-loadbalance.drawio.png "Figure examplenetwork-loadbalance.drawio.png")
 
-You can see the wordpress configuration if you look at the [docker-compose.yml](../session2/minimal-minion-activemq/docker-compose.yaml) configuration.
-This contains a section for the OpenNMS containers, a section for three netsnmp containers (for a seperate set of exercises) and at the bottom a section for the Wordpress containers.
+You can see the wordpress configuration if you look at the [docker-compose.yml](../session2/minimal-minion-activemq/docker-compose.yaml) file.
+This contains a section for the OpenNMS containers, a section for three netsnmp containers (for a separate set of exercises) and at the bottom a section for the Wordpress containers.
 
 You will see three Wordpress containers; wordpress1, wordpress2  and wordpress3. 
-These all share the same data volume `wp_data` so that the are effectively clones of each other.
+These all share the same data volume `wp_data` so that they are effectively clones of each other.
 
 You will also see a wordpress-cli container. 
-This container waits for 20 seconds to allow the database and the containers to start before initialisinf the word press containers, giving them their admin username and password and an initial front page name for the site using the command:
+This container waits for 20 seconds after the project starts to allow the database and the other containers to start before initialising the word press containers, giving them their admin username and password and an initial front page name for the site using the command:
 
 ```
       /bin/sh -c '
@@ -27,10 +27,10 @@ This container waits for 20 seconds to allow the database and the containers to 
       '
 ```
 After this initialisation step, this container exits.
-Without wordpress-cli, you would have t0 manually configure the Wordpress instance on first start.
+Without wordpress-cli, you would have to manually configure the Wordpress instance on first start.
 
 The nginx configuration is held in [wp-load-balencer-with-ssl.conf](..\session2\minimal-minion-activemq\container-fs\nginx\conf.d\wp-load-balencer-with-ssl.conf).
-THis sets up https termination and the round robin request forwarding the the three wordpress servers.
+This sets up https termination and the round robin request forwarding to the three Wordpress servers.
 
 ## running the example
 
@@ -71,9 +71,9 @@ Service Management Example  containers ( Wordpress Service)
 ## Testing Word press and the load balancer
 
 The three wordpress instances share the same configuration and static data.
-They also connect to the same database.
+They are also connected to the same database.
 
-The `wordpress-cli` container configures the wordpress instances with an initial user and front page blog post.
+The `wordpress-cli` container configures the wordpress instances with an initial user and an initial front page blog post.
 
 All three containers sit behind the nginx container which both terminates the https/tls traffic and acts as a round robin load balancer.
 
@@ -81,18 +81,21 @@ browse to `https://localhost` and view the following landing page with links to 
 
 ![alt text](../session2/images/nginx-html.png "Figure nginx-html.png")
 
+the main wordpress page at [https://localhost/wordpress/](https://localhost/wordpress/) is illustrated below.
+
 ![alt text](../session2/images/wordpress1.png "Figure wordpress1.png")
 
-The wordpress admin page allows login with a username and password 
+The wordpress admin page is at [https://localhost/wordpress/wp-login.php](https://localhost/wordpress/wp-login.php) and this allows login with a username and password 
 * Username admin
 * Password secret
-
 
 ![alt text](../session2/images/wordpress2.png "Figure wordpress2.png")
 
 The wordpress admin page should show up as below.
 
 ![alt text](../session2/images/wordpress3.png "Figure wordpress3.png")
+
+## Testing the Round-Robin load balancing 
 
 To test that the load balancing is working, open three terminals use each one to view the word press logs for each of the wordpress instances
 
@@ -111,24 +114,61 @@ If you repeatedly refresh the Wordpress login page, you should see the logs adva
 
 ## Monitoring with OpenNMS
 
-OpenNMS can monitor the load balancer, each of the word press servers and the state of the database.
+OpenNMS can monitor the load balancer, each of the wordpress servers and the state of the database.
 
+browse to [http://localhost:8980/opennms](http://localhost:8980/opennms) and login using 
+* user:admin 
+* password:admin
 
-
-browse to http://localhost:8980/opennms and login using user:admin password:admin
+Skip the change password dialog.
 
 Go to the requisitions page and inspect the test-wordpress requisition.
 
-THis is backed by the requisition import file [test-wordpress.xml](../session2/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/imports/test-wordpress.xml)
-Synchronise this requisition and see each of the servers in the nodes page
+![alt text](../session2/images/wordpressRequisition1.png "Figure wordpressReqisition1.png")
+
+This UI is backed by the requisition import file [test-wordpress.xml](../session2/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/imports/test-wordpress.xml)
+
+Open the wordpress-load-balancer entry for editing. (Use the Vertical Layout).
+
+![alt text](../session2/images/wordpressRequisition2.png "Figure wordpressReqisition2.png")
+
+Note the Meta-data entry which is a `service` scoped name value pair 
+* name : url
+* value: /wordpress/
+* scope: service HTTPS
+
+![alt text](../session2/images/metadata1.png "Figure metadata1.png")
 
 
-try stopping one of the servers and see what happens
+This corresponds to the service definition for the HTTPS service on the load balancer node which means we are specifying in the requisition the specific URL to be tested for the wordpress load balancer service.
+
+
+![alt text](../session2/images/https-loadbalanceService1.png "Figure https-loadbalanceService1.png")
+
+
+Synchronise this requisition and see each of the servers appear in the nodes page
+![alt text](../session2/images/wpnodes1.png "Figure wpnodes1.png")
+
+## simulate a node failure
+
+Try stopping one of the servers and see what happens
 
 ```
 docker compose stop wordpress1
 ```
+After a polling period, you should see service failures on the front page.
+
+![alt text](../session2/images/wpfailFront1.png "Figure wpfailFront1.png")
 
 ## Business Service Monitoring
+
+It is possible to combine service outages using the Business Service Monitoring feature as shown below.
+
+![alt text](../session2/images/https-loadbalanceServiceTopology.png "Figure https-loadbalanceServiceTopology.png")
+
+For more information see [Business Service Monitoring](https://docs.opennms.com/horizon/33/operation/bsm/introduction.html)
+More details of configuring the graph of business services will be covered in a later session. 
+
+
 
 
