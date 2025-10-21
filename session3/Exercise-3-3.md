@@ -177,7 +177,7 @@ Remember, OpenNMS ignores the OID of the varbind but uses the `<vbnumber>` order
 ```
 
 The `<descr>` and `<logmsg>` fields contain the human readable text for the event.
-The varbinds can be included in this text using the excape sequence %parm[#3]% etc.
+The varbinds can be included in this text using the excape sequence `%parm[#3]%` where `#3` indicates the third param (or varbind).
 HTML escape sequences can also be included in the text but because the event file is in XML, we need to use character codes for reserved characters such as &lt; for < characters.
 
 The `<severity>` field can have the values (corresponding to standard ITU X733 definitions)
