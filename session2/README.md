@@ -1,6 +1,6 @@
-# Session 2 OpenNMS Configuration
-
 [Main Menu](../README.md) | [Session 2](../session2/README.md)
+
+# Session 2 OpenNMS Configuration
 
 ## Contents
 1. OpenNMS Configuration Overview

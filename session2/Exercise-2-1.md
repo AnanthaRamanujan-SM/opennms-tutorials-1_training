@@ -1,6 +1,6 @@
-# Exercise 2-1 
-
 [Main Menu](../README.md) | [Session 2](../session2/README.md) | [Exercise-2-1](../session1/Exercise-2-1.md)
+
+# Exercise 2-1 
 
 OpenNMS uses `Requisitions` to pre-define a set of devices and services which are to be provisioned in the system. 
 Requisitions can be created, viewed and modified in the GUI or through an external ReST API. 
