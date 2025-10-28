@@ -57,7 +57,6 @@ Note Perl is not installed by default in opennms containers but curl can be used
 docker compose exec horizon curl --user admin:admin -X POST http://localhost:8980/opennms/rest/events -H 'Content-Type: application/json' -d '{\"uei\": \"uei.opennms.org/internal/reloadDaemonConfig\", \"severity\": \"NORMAL\", \"parms\": [{\"parmName\": \"daemonName\", \"value\": \"Eventd\" }]}' 
 ```
 
-
 ## Fully Decoded set of alarms created from the CHUBB-TVBS-CAMERA.mib
 
 [full-alarms-from-mib](../example-configurations/full-alarms-from-mib/) These files contain fully decoded alarm definitions 

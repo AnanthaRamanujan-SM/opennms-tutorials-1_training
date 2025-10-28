@@ -22,6 +22,15 @@ alarms
 https://creativetechguy.com/utilities/clock#seconds
 
 
+
+some times problem with port 61616  being allocated from ephemeral range
+use
+```
+net stop winnat
+net start winnat
+```
+
+
 Events 
 Alarms 
 SNMP 

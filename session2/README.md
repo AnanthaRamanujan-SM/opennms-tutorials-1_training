@@ -103,6 +103,46 @@ Finally, you should note that any OpenNMS Plugins can be injected into an OpenNM
 We needed to cover this introduction to configuration file locations so that you understand how the examples relate to your production OpenNMS installation. 
 We will have a lot more to say about configuration as we proceed with the course.
 
+### modifying configuration files through the UI
+
+It is possible for a user to modify configuration files through the OpenNMS UI.
+To do this, navigate to `info>FileEditor`.
+
+![alt text](../session2/images/onmsFileEditor.png "Figure onmsFileEditor.png")
+
+Only users with `ROLE_FILESYSTEM_EDITOR` can access this page.
+The user permissions are set per user under `admin > Configure Users, Groups and On-Call Roles`
+
+![alt text](../session2/images/onmsFileEditorRole.png "Figure onmsFileEditorRole.png")
+
+Saved changes will be permanent in a virtual machine or bare metal install of OpenNMS but please note that in a container, these configuration changes are ephemeral and may be lost on shutdown or overridden on startup.
+
+However you can copy files into and out of the container if you want to preserve them using the `docker compose cp` command as illustrated below.
+
+```
+# copy out of the container
+
+docker compose cp horizon:/usr/share/opennms/etc/eventconf.xml .
+
+# or copy into the container
+
+docker compose cp ./eventconf.xml:horizon:/usr/share/opennms/etc/
+```
+
+Normally, configuration changes will be read when the system restarts however for a number of daemons, a daemon reload event can be sent which will restart the daemon in a running system. 
+
+For instance, to reload eventd you can use
+
+```
+docker compose exec horizon /usr/share/opennms/bin/send-event.pl uei.opennms.org/internal/reloadDaemonConfig -p 'daemonName Eventd' 
+```
+
+Note Perl is not installed by default in opennms containers but curl can be used instead to post an event to the system (substitute --user username:password as appropriate and note \" escape characters used in powershell)
+
+```
+docker compose exec horizon curl --user admin:admin -X POST http://localhost:8980/opennms/rest/events -H 'Content-Type: application/json' -d '{\"uei\": \"uei.opennms.org/internal/reloadDaemonConfig\", \"severity\": \"NORMAL\", \"parms\": [{\"parmName\": \"daemonName\", \"value\": \"Eventd\" }]}' 
+```
+
 ## Provisioning Requisitions
 
 In [Session 1](../session1/README.md) we looked at how OpenNMS can scan a network and add any devices it discovers. 
