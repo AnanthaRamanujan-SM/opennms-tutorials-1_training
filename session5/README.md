@@ -12,6 +12,10 @@ In this session we will look at a more advanced OpenNMS [Performance Data Collec
 
 [performance-management-Introduction.pdf](../session5/performance-management-Introduction.pdf) Slides for this session.
 
+You can examine published MIBS in an [Online MIM Browser https://mibbrowser.online/](https://mibbrowser.online/)
+
+You can see which organisation is assigned a  sysOid enterprise number at [[IANA assigned enterprise numbers](https://www.iana.org/assignments/enterprise-numbers/)
+
 [Session 5 Video](https://youtu.be/f67ol8LD77s) (DEPRICATED - to be updated to match new material)
 
 ## Overview
