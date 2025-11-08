@@ -3,6 +3,8 @@
 
 # Exercise 5-1 Accessing the sample network
 
+## Introduction
+
 We have an SNMP enabled device which provides the system load as a metric to indicate the system CPU and I/O utilization.
 The metric is provided under the following SNMP object ids:
 
@@ -26,6 +28,10 @@ The SNMP agents identifies itself with the following system object ID:
 snmpwalk -On -v2c -c public localhost:1610 .1.3.6.1.2.1.1.2
 .1.3.6.1.2.1.1.2.0 = OID: .1.3.6.1.4.1.61509.42.1
 ```
+Our objective is to create a configuration for OpenNMS which allows it to recognise devices with the system object ID `.1.3.6.1.4.1.61509.42.1`.
+OpenNMS should then begin collecting the three load averages defined above from any device with that system object ID.
+
+## Tasks
 
 The lab for this exercise is in the `minimal-minion-activemq` directory using docker compose.
 
