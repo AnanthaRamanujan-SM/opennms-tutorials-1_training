@@ -14,9 +14,9 @@
 
 # Session 1 Videos
 
-[Course Prerequisites](https://youtu.be/NYE9KmMtooY) - Checking out this repository using GIT and running an example using Docker Desktop
+[Course Prerequisites](https://youtu.be/M-FuNBkso4M) - Cloning this repository using GIT and running a test example using Docker Desktop
 
-[OpenNMS Overview Presentation](https://youtu.be/0BVz5_ozEog) - Overview of the key features, usecases and deployment options for OpenNMS
+[OpenNMS Overview Presentation](https://youtu.be/0BVz5_ozEog) - Overview of the key features, use-cases and deployment options for OpenNMS
 
 ## What is OpenNMS
 
