@@ -62,3 +62,6 @@ core-deploy/
 
 # drawio backup
 *.bkp
+
+# powerpoint backup
+~$*.pptx
