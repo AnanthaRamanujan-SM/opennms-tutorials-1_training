@@ -39,7 +39,7 @@ cd minimal-minion-activemq
 docker compose up -d
 ```
 In our example [docker-compose.yaml](../session3/minimal-minion-activemq/docker-compose.yaml) file, you will see that each of the Netsnmp containers exposes a different port on the host system. 
-And the core OpenNMS horizon and the minion1 receive SNMP traps from the host on 10162 and 1162 respectively.
+And the core OpenNMS `horizon` and the `minion1` receive SNMP traps from the host on ports `10162` and `1162` respectively.
 
 | container | Native SNMP port | Host Exposed SNMP Port |
 | --------- | ---------------- | ---------------------- |
@@ -53,43 +53,46 @@ And the core OpenNMS horizon and the minion1 receive SNMP traps from the host on
 
 We can try walking the mib of netsnmp_1_1 using the mibbrowser.
 
-Set the address to localhost and open the advanced tab to set the port to `11161` and the community strings to `public`.
+Set the address to `localhost` and open the advanced tab to set the port to `11161` and the community strings to `public`.
 
 ![alt text](../session3/images/mibbrowser-advanced.png "Figure mibbrowser-advanced.png")
 
-When you select operations > walk and then GO, you should see output like this image.
+When you select `operations > walk` and then `GO`, you should see output like this image.
 
 ![alt text](../session3/images/mibbrowser-walk1.png "Figure mibbrowser-walk1.png")
 
 Note the line `Name/OID: sysObjectID.0; Value (OID): .1.3.6.1.4.1.8072.3.2.10`
 
-The sysObjectID will be different for every vendor with the fields after the vendor id used to specify the vendors device.
+The sysObjectID will be different for every vendor.
+In this example `8072` is the vendor id (NetSNMP) and the fields after the vendor id (`.3.2.10`) are used by the vendor to specify the vendors device `linux` (see [https://oidref.com/1.3.6.1.4.1.8072.3.2.10](https://oidref.com/1.3.6.1.4.1.8072.3.2.10) for more details).
+
 The vendor id is assigned to organisations by IANA.
-You can search a list of susObjectID mappings per vendor here [https://www.iana.org/assignments/enterprise-numbers/](https://www.iana.org/assignments/enterprise-numbers/)
+You can search a list of sysObjectID mappings per vendor here [https://www.iana.org/assignments/enterprise-numbers/](https://www.iana.org/assignments/enterprise-numbers/)
 
 The sysObjectID is the primary means by which OpenNMS knows what sort of device it is and therefore what MIBS are available to collect data from.
 
 `8072` is the registered sysObjectID for NetSNMP. 
 
-`5813` is the registered sysObjectID for The OpenNMS Group, Inc.  (This is sometimes used when OpenNMS forwards traps to other systems)
+`5813` is the registered sysObjectID for The OpenNMS Group, Inc.  (This is sometimes used when OpenNMS forwards traps to other systems).
 
 Try walking the other containers by using a different port.
-Note that you will need to use community string `chubb` for chubb_camera_01
+
+Note that you will need to use community string `chubb` to get a response from the `snmpsim` emulation of the chubb cameras `chubb_camera_01` and `chubb_camera_02`.
 
 ## Generating events using MibBrowser
 
 You can use the MibBrowser to generate traps which are sent to OpenNMS.
 
-Select Tools > trap sender
+Select `Tools > trap sender`
 
-The figure below shows sending a LinkDown trap to horizon on port 1162
+The figure below shows sending a `LinkDown` trap to horizon on port `1162`
 
-With an SNMP V1 Trap you can specify the source IP address and in this case we have specified that the trap is coming from  `172.20.0.101` which corresponds to netsnmp_1_1.
+With an SNMP V1 Trap you can specify the source IP address and in this case we have specified that the trap is coming from  `172.20.0.101` which corresponds to `netsnmp_1_1`.
 
 ---
 **NOTE**
 
-SNMP v1 allows the source IP address to be set as a varbind but  with SNMP v2 traps, you can't specify the source IP as a varbind.
+SNMP v1 allows the source IP address to be set as a varbind but with SNMP v2 traps, you can't specify the source IP as a varbind.
 In this case the UDP message must come from the actual device IP address set by the operating system.
 See an explanation here https://stackoverflow.com/questions/76741423/pysnmp-impossible-to-change-source-address
 
@@ -97,13 +100,13 @@ See an explanation here https://stackoverflow.com/questions/76741423/pysnmp-impo
 
 ![alt text](../session3/images/mibbrowser-sendlinkdowntrap.png "Figure mibbrowser-sendlinkdowntrap.png")
 
-Send a down tap several times and then look at the OpenNMS event list to see that the traps have arrived as Agent Interface Down (linkDown Trap) events with WARNING severity.
+Send a `linkDown`  tap several times and then look at the OpenNMS event list to see that the traps have arrived as `Agent Interface Down (linkDown Trap)` events with WARNING severity.
 
 http://localhost:8980/opennms/event/list
 
 ![alt text](../session3/images/onms-eventlist1.png "Figure onms-eventlist1.png")
 
-On a separate tab, open the OpenNMS alarm list and you should see a single WARNING Alarm Agent Interface Down (linkDown Trap)  with a count of events.
+On a separate tab, open the `OpenNMS alarm list` and you should see a single WARNING `Alarm Agent Interface Down (linkDown Trap)`  with a count of events.
 
 ![alt text](../session3/images/onms-alarmlist1.png "Figure onms-alarmlist1.png")
 
