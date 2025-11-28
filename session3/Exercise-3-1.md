@@ -237,6 +237,7 @@ snmptrap -v 2c -c public horizon:1162 ""  .1.3.6.1.4.1.52330.6.2.0.1        .1.3
 snmptrap -v 2c -c public horizon:1162 ""  .1.3.6.1.4.1.52330.6.2.0.1        .1.3.6.1.4.1.52330.6.2.7.0  s xxxx   .1.3.6.1.4.1.52330.6.2.1.0 i 0  .1.3.6.1.4.1.52330.6.2.5.0 i 0
 
 ```
+You should see `unformatted events` appear on the events list for each trap type.
 
 We will create an event configuration to match against our new trap in [Exercise-3-2](../session3/Exercise-3-2.md)
 
