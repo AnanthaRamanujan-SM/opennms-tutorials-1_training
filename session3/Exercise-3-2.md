@@ -204,7 +204,7 @@ The `<severity>` field can have the values (corresponding to standard ITU X733 d
 | Cleared   | Indicates that an alarm with a self-clearing error condition has been corrected, and service is restored.|
 | Indeterminate | No severity could be associated with the event. |
 
-## how does the alarm definition work
+## How does the alarm definition work?
 
 You will see that the `example trap definition 1 RAISE` event also contains an `<alarm-data>` element.
 ```
