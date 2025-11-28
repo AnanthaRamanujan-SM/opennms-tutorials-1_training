@@ -187,7 +187,9 @@ To send SNMP v2 taps, the  command format is
 
 snmptrap [OPTIONS] AGENT TRAP-PARAMETERS
 
-The trap parameters are also called `varbinds` and each consists of the fields `oid` `type` `value`  where the type of the data can vary but we are using 'i' integer or 's ' string (for other possible types see [NetSNMP snmpset documentation](http://www.net-snmp.org/wiki/index.php/TUT:snmpset) `i: INTEGER, u: unsigned INTEGER, t: TIMETICKS, a: IPADDRESS, o: OBJID, s: STRING, x: HEX STRING, d: DECIMAL STRING`).
+The trap parameters are also called `varbinds` and each consists of the fields `oid` `type` `value`  where the type of the data can vary but we are using 'i' integer or 's ' string
+
+(for other possible types see [NetSNMP snmpset documentation](http://www.net-snmp.org/wiki/index.php/TUT:snmpset) `i: INTEGER, u: unsigned INTEGER, t: TIMETICKS, a: IPADDRESS, o: OBJID, s: STRING, x: HEX STRING, d: DECIMAL STRING`).
 
 Although officially, the OID of each varbind must be defined in the trap, OpenNMS is not concerned with and doesn't use the varbind OID but only the POSITION of the varbind value. (i.e. is it the first, second or third value etc. in the sequence). 
 So in these examples, Provided a varbind OID is set, it doesn't matter what the OID value is as it is only the order of the varbinds which are important to OpenNMS.
