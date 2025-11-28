@@ -13,14 +13,14 @@ A very useful free tool for browsing SNMP MIBS and  generating SNMP traps is the
 
 Please install this software on your host system so we can use it to interrogate the SNMP agents in the example containers.
 
-By convention,  SNMP agents use port 161 for responding to SNMP requests and 162 for receiving traps.
+By convention,  SNMP agents use port `161` for responding to SNMP requests and `162` for receiving traps.
 
-However, in order to avoid conflicts with Linux NetSNMP, OpenNMS is usually set up to use a different port to receive traps.
+However, in order to avoid conflicts with Linux NetSNMP, OpenNMS is usually set up to use a different port (`1162`) to receive traps.
 The OpenNMS core SNMP trap port is set in the file [etc/trapd-configuration.xml](../../main/pristine-opennms-config-files/etc-pristine/trapd-configuration.xml)
 
 It is worth noting that this file also contains a setting `new-suspect-on-trap="false"` which if set `true` will cause OpenNMS to scan for a new node if it does not recognise the `from IP address` field of the trap packet.
 
-In our example [docker-compose.yaml](../session3/minimal-minion-activemq/docker-compose.yaml) file, you will see that each of the netsnmp containers exposes a different port on the host system. 
+In our example [docker-compose.yaml](../session3/minimal-minion-activemq/docker-compose.yaml) file, you will see that each of the Netsnmp containers exposes a different port on the host system. 
 And the core OpenNMS horizon and the minion1 receive SNMP traps from the host on 10162 and 1162 respectively.
 
 | container | Native SNMP port | Host Exposed SNMP Port |
