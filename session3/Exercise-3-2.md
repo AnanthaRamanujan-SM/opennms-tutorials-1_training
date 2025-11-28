@@ -286,6 +286,6 @@ A good source of information is the [alarm and event documentation](https://docs
 
 Looking at the [share/xsds/eventconf.xsd](../../main/pristine-opennms-config-files/xsds/eventconf.xsd) can also reveal more options for the xml configuration.
 
-We will look a more complex real alarm definition exercise in the next CHUBB Camera case study example [Exercise-3-3.md](../Exercise-3-3.md)
+We will look a more complex real alarm definition exercise in the next CHUBB Camera case study example [Exercise-3-3.md](../session3/Exercise-3-3.md)
 
 
