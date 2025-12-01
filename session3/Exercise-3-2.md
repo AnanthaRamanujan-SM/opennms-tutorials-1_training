@@ -44,7 +44,6 @@ root@horizon:/usr/share/opennms# microdnf -y install nano
 
 # exit as root user 
 root@horizon:/usr/share/opennms# exit
-
 ```
 Now we can use nano to edit our configuration
 
@@ -171,14 +170,13 @@ You will also see a corresponding WARNING alarm with an event count of each rais
 ![alt text](../session3/images/reloadEvents.png "Figure reloadEvents.png")
 
 ## How does the event definition work?
-
 We have created an event configuration for two events which also create and clear an alarm.
 
 All events defined in OpenNMS must have a unique identifier called the `<uei>`
 
 The event definitions contain a `<mask>` element which you can see match the suggested trap masks in the original unformatted events. 
 
-The event definitions can also also contain one or more `<varbind>` elements which define the sequential number of the varbind and the corresponding varbind value to match. 
+The event definitions can also also contain one or more `<varbind>` elements which define the position of the varbind in the trap definition and the corresponding varbind value to match. 
 Remember, OpenNMS ignores the OID of the varbind but uses the `<vbnumber>` order in which the varbind is declared. 
 
 ```
@@ -189,7 +187,14 @@ Remember, OpenNMS ignores the OID of the varbind but uses the `<vbnumber>` order
 ```
 
 The `<descr>` and `<logmsg>` fields contain the human readable text for the event.
-The varbinds can be included in this text using the excape sequence `%parm[#3]%` where `#3` indicates the third param (or varbind).
+
+The `dest` property such as in `<logmsg dest="logndisplay">` determines how the event is persisted. 
+Options include
+* `logonly` - Log the event in the database, but do not display it.
+* `suppress` - Neither log the event in the database nor display it.
+* `donotpersist` - Do not log the event in the database, but still send it to daemons that are listening for this type of event.
+
+The varbind values can be included in this text using the escape sequence `%parm[#3]%` where `#3` indicates the third param (or varbind).
 HTML escape sequences can also be included in the text but because the event file is in XML, we need to use html character codes for reserved characters such as `&lt;` for `<` characters.
 
 The `<severity>` field can have the values (corresponding to standard ITU X733 definitions)
@@ -203,6 +208,8 @@ The `<severity>` field can have the values (corresponding to standard ITU X733 d
 | Normal    | Informational severity message; no action is required. |
 | Cleared   | Indicates that an alarm with a self-clearing error condition has been corrected, and service is restored.|
 | Indeterminate | No severity could be associated with the event. |
+
+For more infomrmation on events see the documentation on [the anatonomy of event](https://docs.opennms.com/horizon/33/operation/deep-dive/events/event-definition.html) for more more details.
 
 ## How does the alarm definition work?
 
