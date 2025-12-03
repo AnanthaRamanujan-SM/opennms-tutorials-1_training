@@ -121,7 +121,8 @@ rule "group mapping situation"
     $alarm : OnmsAlarm(alarmType == OnmsAlarm.PROBLEM_TYPE,
                        lastEvent != null,
                        // match alarm if last event uei is in list of groups
-                       $groupMap.euiGroupMap.keySet() contains lastEvent.eventUei
+                       $groupMap.euiGroupMap.keySet() contains lastEvent.eventUei,
+                       node.label != "camera-controller"
                       )
 
     // get groupMap entries where uei matches the alarm's uei
