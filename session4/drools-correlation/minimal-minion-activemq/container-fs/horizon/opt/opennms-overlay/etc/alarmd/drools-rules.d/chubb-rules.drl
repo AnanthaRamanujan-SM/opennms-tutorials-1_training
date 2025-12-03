@@ -111,6 +111,32 @@ rule "insert uei group map"
         alarmService.warn( "inserted group map" );
 end
 
+rule "suppress camera controller alarms"
+  when
+  
+    $sessionClock : SessionClock()
+    $groupMap : GroupMap() 
+    
+    // get camera-controller alarms which match the uei's in groupMap
+    $alarm : OnmsAlarm(alarmType == OnmsAlarm.PROBLEM_TYPE,
+                       lastEvent != null,
+                       // match alarm if last event uei is in list of groups
+                       $groupMap.euiGroupMap.keySet() contains lastEvent.eventUei,
+                       severity != OnmsSeverity.CLEARED,
+                       node.label == "camera-controller"
+                      )
+
+  then
+  
+     Date now = new Date(drools.getWorkingMemory().getSessionClock().getCurrentTime());
+     
+     alarmService.warn("suppress camera controller alarms: clearing alarm {}", $alarm);
+     
+     alarmService.clearAlarm($alarm, now);
+  
+end
+
+    
 
 rule "group mapping situation"
   when
@@ -205,7 +231,7 @@ rule "group mapping situation"
     
 end
 
-/* searchs eventParameters list and returns true if name key with value is found. returns false if inputs are null */
+/* searches eventParameters list and returns true if name key with value is found. returns false if inputs are null */
 function boolean findEventParameter(AlarmService alarmService, String name, List ueiGroupsList, List eventParameters) {
     
     if( name == null || eventParameters==null || ueiGroupsList==null || ueiGroupsList.isEmpty()) return false;
