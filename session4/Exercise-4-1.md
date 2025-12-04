@@ -251,7 +251,8 @@ In this code snippet, we can see that we are adding a new parameter called `ifDe
 If the sql statement returns no result, the `ifDescr` parameter will be given the default value `Unknown`.
 
 The SQL is actually a [JDBC](https://en.wikipedia.org/wiki/Java_Database_Connectivity) query where each question mark `?`  is substituted with a value.
-(Note for developers - the Event Translator uses JDBC SQL queries directly with the database and bypasses Hibernate. 
+
+(Note for developers - the Event Translator uses JDBC SQL queries directly with the database and bypasses Hibernate and the internal OpenNMS DAOs. 
 It does not use the Hibernate or JPA query language).
 
 The first value is the `nodeid` of the node creating the event. 
@@ -276,7 +277,7 @@ The last number `nn` will be the `ifIndex` we can use to look up the OpenNMS `sn
 > ![alt text](../session4/images/regex101-1.png "Figure regex101-1.png")
 >
 
-Armed with the `nodeid` and interface `ifIndex`, we can use the sql query to look up the interface in the snmpInteface table and extract the `snmpIfdescr` i.e. the interface descriptor field. 
+Armed with the `nodeid` and interface `ifIndex`, we can use the sql query to look up the interface in the `snmpInterface` table and extract the `snmpIfdescr` i.e. the interface descriptor field. 
 
 A similar assignment is repeated for all 3 values we want to include in the new event.
 
