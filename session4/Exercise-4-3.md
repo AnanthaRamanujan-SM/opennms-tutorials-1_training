@@ -185,7 +185,7 @@ end
 ```
 ### Alarm grouping rules
 
-In OpenNMS Situations are just an alarm with some extra parameters.
+In OpenNMS `situations` are just `alarms` with some extra parameters.
 
 Alarms are represented as situations if they contain one or more parameters (param) with a name starting with `related-reductionKey`.
 Multiple `related-reductionKey` parameters are allowed if each parameter has a unique string after the `related-reductionKey` name e.g
