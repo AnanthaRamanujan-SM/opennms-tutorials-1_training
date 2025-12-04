@@ -2,7 +2,7 @@
 
 # Exercise 4-1 
 
-OpenNMS uses [Postgresql](https://www.postgresql.org/) as the underlying database for storing it's dynamic configurations and processing alarms and events.
+OpenNMS uses [Postgresql](https://www.postgresql.org/) as the underlying database for storing it's dynamic configurations and for processing alarms and events.
 
 Most access to the database in OpenNMS is performed through the java persistence layer which is based on the [Java Persistence API (JPA)](https://en.wikipedia.org/wiki/Jakarta_Persistence) implemented in [Hibernate](https://en.wikipedia.org/wiki/Hibernate_(framework)).
 The main APIs, alarm and correlation processes such as Drools directly interact with this persistence layer.
