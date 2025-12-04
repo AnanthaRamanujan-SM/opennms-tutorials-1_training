@@ -9,6 +9,9 @@ We have looked at various techniques for creating event and alarm configurations
 Often in a real world network management situation it is necessary to modify or enhance these management objects. 
 In this session we will see how to enhance or modify events and alarms to provide more meaningful service impact information to users. 
 
+![alt text](../session4/images/alarmprocessing1.png "Figure alarmprocessing1.png")
+
+
 In [Exercise-4-1](../session4/Exercise-4-1.md) we will look at the OpenNMS Database and the Event Translator.
 
 In [Exercise-4-2](../session4/Exercise-4-2.md) we will create a real event translator example for our smart motorway.
