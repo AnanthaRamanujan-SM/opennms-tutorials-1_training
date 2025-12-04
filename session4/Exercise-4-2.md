@@ -4,10 +4,12 @@
 
 In this exercise we will translate received traps into a set of modified traps using the [event translator](https://docs.opennms.com/horizon/33/operation/deep-dive/events/event-translator.html).
 
-## Senario
+## Scenario
 
 Imagine that multiple cameras from the examples in [Session 3](../session3/README.md) are controlled from a single `camera-controller`. 
 The cameras themselves are not directly manageable from OpenNMS but the `camera-controller` monitors the cameras and will send traps to OpenNMS if it detects any problems with any of the cameras. 
+
+![alt text](../session4/images/cameracontroller.png "Figure cameracontroller.png")
 
 The operator wishes to show the status of all the cameras on a map, so they each need to be represented as unique OpenNMS nodes which may or may not have alarms associated with them.
 However, instead of each camera sending traps directly to OpenNMS with a unique IP address associated with each camera, the `camera-controller` sends all the traps from its own IP address on behalf of the cameras it manages.
@@ -17,10 +19,14 @@ The answer in this case is to use the [event translator](https://docs.opennms.co
 
 ## Setup
 
+You should use the docker compose project under the `EventTranslator` folder for this exercise
+
+[/session4/EventTranslator/minimal-minion-activemq](../session4/EventTranslator/minimal-minion-activemq).
+
 The cameras and camera controllers are defined in the [camera-locations.xml requisition](../session4/EventTranslator/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/imports/camera-locations.xml).
 
 You should import this requisition to define the cameras and `camera-controller` when you start OpenNMS.
-The cameras are named after the fashion; camera_001, camera_002 etc. 
+The cameras are named after the fashion; `camera_001`, `camera_002` etc. 
 Each camera also has an asset record defining the latitude and longitude of its location which creates the following map;
 
 ![alt text](../session4/images/chubb-cameras.png "Figure chubb-cameras.png")
@@ -35,7 +41,7 @@ Example traps are provided in [CAMERA-CONTROLLER Trap Examples](../session4/Trap
 
 These traps match the event configuration here [etc/events/CAMERA-CONTROLLER-MIB.events.xml](../session4/EventTranslator/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/events/CAMERA-CONTROLLER-MIB.events.xml) 
 
-You need to design an event translator configuration which will translate the events from these new traps into the old events defined in [Exercise 3.1](../session3/Exercise-3-1.md) but with the correct `nodeid` corresponding to the `cameraIdentifier` in the traps.
+You need to design an event translator configuration which will translate the events from these new traps into similar events to those defined in [Exercise 3.1](../session3/Exercise-3-1.md) but with the correct `nodeid` corresponding to the `cameraIdentifier` in the traps.
 
 A starting point is provided here [etc/translator-configuration.xml](../session4/EventTranslator/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/translator-configuration.xml) 
 This is based upon the standard translations included with OpenNMS. 
@@ -47,7 +53,37 @@ You will see in the file there is already a configuration `Improved LinkDown/Lin
 You need to do a similar event lookup for each of the events defined in [etc/events/CAMERA-CONTROLLER-MIB.events.xml](../session4/EventTranslator/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/events/CAMERA-CONTROLLER-MIB.events.xml) 
 
 A starting point is provided at the end of the file `Translations FOR CAMERA CONTROLLER EVENTS`. 
-Modify this to do a database lookup.
+
+```
+    <!-- Translations FOR CAMERA CONTROLLER EVENTS -->
+    <event-translation-spec uei="uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/healthChange/panMotor">
+      <mappings>
+        <mapping preserve-snmp-data="false">
+            
+          <!-- you need to change this to look up the nodeid from the nodelabel -->
+          <assignment name="nodeid" type="field">
+              <value type="constant" result="5" />
+          </assignment>
+
+        </mapping>
+      </mappings>
+    </event-translation-spec>
+
+    <event-translation-spec uei="uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/healthChangeClear/panMotor-clear">
+      <mappings>   
+         <mapping preserve-snmp-data="false">
+            
+          <!-- you need to change this to look up the nodeid from the nodelabel -->
+          <assignment name="nodeid" type="field">
+              <value type="constant" result="5" />
+          </assignment>
+
+        </mapping>
+      </mappings>
+    </event-translation-spec>
+```
+
+Modify this to do a database lookup for the `nodeid` based on the `nodelabel` contained in the varbind with the oid `.1.3.6.1.4.1.52330.6.2.7.0` .
 
 You will find the answer here (but try the exercise first).
 [Exercise-4-2 Answer](../session4/Exercise4-2-answer.md)

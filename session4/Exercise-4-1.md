@@ -22,7 +22,11 @@ Firstly, however, we will begin by examining the OpenNMS database.
 
 ## Viewing the OpenNMS database
 
-The [session4/EventTranslator/minimal-minion-activemq](../session4/EventTranslator/minimal-minion-activemq) docker compose project includes a docker image of the  [pgAdmin4](https://www.pgadmin.org/) Postgresql web maintenance tool.
+You should use the docker compose project under the `EventTranslator` folder for this exercise
+
+[/session4/EventTranslator/minimal-minion-activemq](../session4/EventTranslator/minimal-minion-activemq).
+
+The [session4/EventTranslator/minimal-minion-activemq](../session4/EventTranslator/minimal-minion-activemq) docker compose project includes a docker image of the [pgAdmin4](https://www.pgadmin.org/) Postgresql web maintenance tool.
 * https://github.com/pgadmin-org/pgadmin4
 * https://hub.docker.com/r/dpage/pgadmin4/
 
