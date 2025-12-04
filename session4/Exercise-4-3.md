@@ -188,7 +188,7 @@ end
 In OpenNMS `situations` are just `alarms` with some extra parameters.
 
 Alarms are represented as situations if they contain one or more parameters (param) with a name starting with `related-reductionKey`.
-Multiple `related-reductionKey` parameters are allowed if each parameter has a unique string after the `related-reductionKey` name e.g
+Multiple `related-reductionKey` parameters are allowed if each parameter has a unique string after the `related-reductionKey` name e.g `related-reductionKey--401735179`.
 
 The`related-reductionKey` param contains the reduction key of an alarm associated with this situation.
 
