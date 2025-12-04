@@ -59,19 +59,13 @@ The problem with this approach is that, while alarm grouping is possible, you ne
 
 An alternative approach is to build a business rules configuration which can be extended to any number of cameras.
 
----
-**NOTE**
-* While in theory, this approach should work, I have had problems getting the BSM feature to recognise alarms through the reduction key. 
-  This may be a bug with the the current version or a mis-configuration I have not recognised. 
-  Regardless, as we aren't using this approach it doesn't really matter but i dont want you to waste time on it.
----
-
 
 ## Drools Rules Solution
 
-In OpenNMS `situations` are alarms which group together associated alarms. 
+In OpenNMS `situations` are alarms which group together other associated alarms. 
+`situations` can also group together other `situations`.
 
-Originally situations were created for use with the ALEC machine learning framework but drools can also be used to create and manage situations as we shall see here.
+Originally `situations` were created for use with the ALEC machine learning framework but drools can also be used to create and manage situations as we shall see here.
 
 In this example, we are going to use drools rules to create a `situation` which groups together alarms from the same group (as defined in the list above).
 If any of the alarms associated with a group occurs, a new situation is created or the alarm is added to an existing situation.
@@ -80,7 +74,7 @@ If all the alarms in a `situation` clear, the `situation` is also cleared.
 
 ### How Drools works in OpenNMS
 
-OpenNMS uses [Red Hat Jboss Rules v 8.34.0](https://docs.jboss.org/drools/release/8.34.0.Final/drools-docs/docs-website/drools/introduction/index.html)
+OpenNMS horizon 33.x uses [Red Hat Jboss Rules v 8.34.0](https://docs.jboss.org/drools/release/8.34.0.Final/drools-docs/docs-website/drools/introduction/index.html)
 
 Drools is an enhanced implementation of the [Rete Algorithm](https://en.wikipedia.org/wiki/Rete_algorithm) which efficiently executes rules that match `facts` injected into the rules engine.
 
@@ -88,7 +82,7 @@ OpenNMS injects new Alarms into Drools and re-triggers the rule engine on each a
 
 Within the rules engine, the `Alarm facts` are represented by 
 [OnmsAlarm.java](https://github.com/OpenNMS/opennms/blob/opennms-33.1.6-1/opennms-model/src/main/java/org/opennms/netmgt/model/OnmsAlarm.java) 
-objects
+objects.
 
 `Alarm facts` are  are populated with links to the `lastevent` [OnmsEvent.java](https://github.com/OpenNMS/opennms/blob/opennms-33.1.6-1/opennms-model/src/main/java/org/opennms/netmgt/model/OnmsEvent.java) object and the `node` [OnmsNode.java](https://github.com/OpenNMS/opennms/blob/opennms-33.1.6-1/opennms-model/src/main/java/org/opennms/netmgt/model/OnmsNode.java) object associated with the event. 
 
@@ -138,11 +132,33 @@ You will see that the example has the fully decoded events file and the event tr
 
 Example traps are provided for camera_008 in [CAMERA-CONTROLLER Trap Examples](../session4/TrapExamplesCAMERA-CONTROLLER.md)
 
-Once OpenNMS is running and you have loaded the [camera-locations.xml](../session4/drools-corellation/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/imports/camera-locations.xml) requisition, try sending various traps from the example traps file.
+Once OpenNMS is running and you have loaded the [camera-locations.xml](../session4/drools-corellation/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/imports/camera-locations.xml) requisition, try sending various traps from the `camera-controller` using the traps in the example traps file.
 
+```
+docker compose exec camera-controller
 
+snmptrap -v 2c -c public horizon:1162 ""  .1.3.6.1.4.1.52330.6.2.0.1        .1.3.6.1.4.1.52330.6.2.7.0 s camera_008   .1.3.6.1.4.1.52330.6.2.1.0 i 0  .1.3.6.1.4.1.52330.6.2.5.0 i 1    # panMotor raise
 
-You should see situations created which contain alarms from the underlying groups.
+snmptrap -v 2c -c public horizon:1162 ""  .1.3.6.1.4.1.52330.6.2.0.1        .1.3.6.1.4.1.52330.6.2.7.0 s camera_008   .1.3.6.1.4.1.52330.6.2.1.0 i 1  .1.3.6.1.4.1.52330.6.2.5.0 i 1    # tiltMotor raise
+```
+
+You should see a group situation created which contains the underlying alarms created by the traps above.
+
+On the OpenNMS front page, you will see the `situation` listed:
+
+![alt text](../session4/images/alarmlistwithsituation3.png "Figure alarmlistwithsituation3.png ")
+
+On the alarm list, you will see all the `alarms` and the `situation` listed:
+
+![alt text](../session4/images/alarmlistwithsituation1.png "Figure alarmlistwithsituation1.png ")
+
+And the details of the `situation` will also list the `related alarms` which are linked to the `situation` and also the events which have created and/or changed the `situation`.
+
+![alt text](../session4/images/alarmlistwithsituation2.png "Figure alarmlistwithsituation2.png ")
+
+Try using other traps to raise and clear alarms and situations.
+
+This is the end of the practical exercise but I have provided more information on how the rules work below. 
 
 ## Brief explanation of the rules
 
@@ -178,7 +194,8 @@ The`related-reductionKey` param contains the reduction key of an alarm associate
 
 Events can be used to create and update situations if they contain `related-reductionKey` params.
 
-In our example, we are using events defined in [etc/events/opennms.alarm.drools.situation.events.xml](../session4/drools-correlation/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/events/opennms.alarm.drools.situation.events.xml) to create and display our situations.n
+In our example, we are using events defined in [etc/events/opennms.alarm.drools.situation.events.xml](../session4/drools-correlation/minimal-minion-activemq/container-fs/horizon/opt/opennms-overlay/etc/events/opennms.alarm.drools.situation.events.xml) to create and display our situations.n
+
 You will get more insight into how this works by looking at the `isRelatedReductionKeyWithContent(Parm param)` method in [AlarmPersisterImpl.java](https://github.com/OpenNMS/opennms/blob/opennms-33.1.8-1/opennms-alarms/daemon/src/main/java/org/opennms/netmgt/alarmd/AlarmPersisterImpl.java)
 This code is used to match the related alarm reduction keys and mark this alarm as a situation.
 
