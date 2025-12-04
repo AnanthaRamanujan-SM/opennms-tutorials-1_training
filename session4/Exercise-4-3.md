@@ -2,7 +2,14 @@
 
 # Exercise 4-3 
 
-Drools Rules
+## Scenario
+
+The configuration in [Exercise-4-2 Answer](../session4/Exercise-4-2-answer.md) worked well but the customer complained that there are too many possible alarms. 
+They did not want to see all of the detailed alarms but a simplified set of service alarms which consolidated the possible alarms into five groups.
+Thus they wanted to see a `group5` service alarm if any of the alarms in `group5` were present or a `group1` service alarm if any of the alarms in group1 were present.
+
+The grouping of alarm uei's is listed in the table below.
+
 
 | UEI                                                               | Group Alarm    |
 |:------------------------------------------------------------------|:---------------|
@@ -38,6 +45,18 @@ Drools Rules
 | uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/logicInputChangeCleared| group1 |
 | uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/commsStateChange| group1 |
 | uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/commsStateChangeClear| group1 |
+
+Now you should realise that it would possible to do this using the `Business Service Monitor` to define a business service alarm for all of the possible reduction keys in each group for each camera. 
+An example of one group5 alarm is shown below
+
+![alt text](../session4/images/BSMReductionKey1.png "Figure BSMReductionKey1.png ")
+
+This shows up in the topology like so.
+![alt text](../session4/images/BSMReductionKey2.png "Figure BSMReductionKey2.png ")
+
+The problem with this approach is that, while alarm grouping is possible, you need to build a configuration for every camera which quickly becomes unwieldy and error prone.
+
+An alternative approach is to build a business rules configuration which can be extended to any number of cameras.
 
 
 You should use the docker compose project under the `drools-corellation` folder for this exercise
