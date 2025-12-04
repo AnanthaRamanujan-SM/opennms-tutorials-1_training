@@ -86,4 +86,4 @@ A starting point is provided at the end of the file `Translations FOR CAMERA CON
 Modify this to do a database lookup for the `nodeid` based on the `nodelabel` contained in the varbind with the oid `.1.3.6.1.4.1.52330.6.2.7.0` .
 
 You will find the answer here (but try the exercise first).
-[Exercise-4-2 Answer](../session4/Exercise4-2-answer.md)
+[Exercise-4-2 Answer](../session4/Exercise-4-2-answer.md)
