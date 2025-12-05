@@ -59,10 +59,16 @@ A starting point is provided at the end of the file `Translations FOR CAMERA CON
     <event-translation-spec uei="uei.opennms.org/traps/CHUBB-TVBS-CAMERA-MIB/healthChange/panMotor">
       <mappings>
         <mapping preserve-snmp-data="false">
-            
+
           <!-- you need to change this to look up the nodeid from the nodelabel -->
           <assignment name="nodeid" type="field">
               <value type="constant" result="5" />
+
+             <!-- this might help :) -->
+             <!--   <value type="sql" result="xxx"> -->
+             <!--          <value type="parameter" name="xxxx" matches=".*" result="${0}" /> -->
+             <!--  </value> -->
+
           </assignment>
 
         </mapping>
