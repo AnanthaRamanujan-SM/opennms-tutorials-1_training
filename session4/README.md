@@ -16,7 +16,7 @@ We will look more at these sources in a future session.
 
 Often in a real world network management situation it is necessary to further modify or `enrich` the events and alarms to provide more meaningful service impact information to users.
 
-One of the most useful tools is the `Event Translator` which can generate new events based upon an existing event combined with other data, most often derived from the OpenNMS database. 
+One of the most useful tools OpenNMS provides for event entichment is the `Event Translator` which can generate new events based upon an existing event combined with other data, most often derived from the OpenNMS database. 
 
 In [Exercise-4-1](../session4/Exercise-4-1.md) we will look at the OpenNMS Database and the Event Translator.
 
