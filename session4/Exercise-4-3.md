@@ -107,6 +107,8 @@ In this session we do not have enough time to give a full overview of how the ru
 
 ### Exercise
 
+In this exercise we will first examine the behaviour of the rules beore diving into how they are coded.
+
 Before proceeding to this [Exercise-4-3](../session4/Exercise-4-3.md), shutdown and clear the database for the previous EventTranslator project.
 
 ```
