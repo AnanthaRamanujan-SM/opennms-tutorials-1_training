@@ -16,7 +16,9 @@ You can examine published MIBS in an [Online MIM Browser https://mibbrowser.onli
 
 You can see which organisation is assigned a  sysOid enterprise number at [IANA assigned enterprise numbers](https://www.iana.org/assignments/enterprise-numbers/)
 
-[Session 5 Video](https://youtu.be/f67ol8LD77s) (DEPRICATED - to be updated to match new material)
+## Video
+
+TBD
 
 ## Overview
 
