@@ -53,7 +53,7 @@ IMPORTANT: To apply the settings Collectd needs a reload when a category was cha
 
 ### Thresholding
 
-See [OpenNMS documentation on thresholds](https://docs.opennms.com/horizon/33/operation/thresholds/thresholding.html)
+See [OpenNMS documentation on thresholds](https://docs.opennms.com/horizon/33/operation/deep-dive/thresholds/thresholding.html)
 
 - [ ] Create a high threshold for CPU usage higher than 50%
 
