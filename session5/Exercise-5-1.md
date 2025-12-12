@@ -18,6 +18,8 @@ These values are taken from the NetSNMP maintained [UCD-SNMP-MIB.txt](https://ww
 
 You can load this mib into the [ireasoning mibbrowser](https://www.ireasoning.com/mibbrowser.shtml) or view it online at the [online mib browser UCD-SNMP-MIB](https://mibbrowser.online/mibdb_search.php?mib=UCD-SNMP-MIB)
 
+![alt text](../session5/images/LoadAverageSubTable.png "Figure LoadAverageSubTable.png")
+
 The vendor gives us a MIB description for these metrics as the following:
 
 > The 1,5 and 15 minute load averages as an integer. This is computed by taking the floating point loadaverage value and multiplying by 100, then converting the value to an integer.

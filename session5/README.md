@@ -46,9 +46,9 @@ The relationship between the SNMP data collection configuration files is illustr
 
 Out of the box, OpenNMS uses RRD Tool to store performance data. 
 Historically, It also used RRD Tool to generate the graph displays on he OpenNMS UI.
-(Note that OpenNMS can also use Jrobin a java implementation of RRD Tool - but this is now depricated)
+(Note that OpenNMS can also use Jrobin a java implementation of RRD Tool - but this is now deprecated)
 
-With the introdction of NoSQL backends such as cassandra, it was neccesary to create a new library which could generate graphs from multiple back ends. 
+With the introduction of NoSQL backends such as cassandra, it was necessary to create a new library which could generate graphs from multiple back ends. 
 This library is called [Backshift](https://github.com/OpenNMS/backshift)
 
 For backwards compatability, [Backshift](https://github.com/OpenNMS/backshift) still uses the original RRDTool graph definitions stored in [etc/snmp-graph.properties.d](../../main/pristine-opennms-config-files/etc-pristine/snmp-graph.properties.d)
