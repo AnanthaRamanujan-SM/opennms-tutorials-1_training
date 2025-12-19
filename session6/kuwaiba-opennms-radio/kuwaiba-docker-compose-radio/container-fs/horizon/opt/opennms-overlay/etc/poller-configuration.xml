@@ -283,7 +283,7 @@
          <parameter key="password" value="${requisition:password|detector:password|admin}" />
       </service>
       
-      <!-- checks viror virtual router router is running on primary router-->
+      <!-- checks vigor virtual router router is running on primary router-->
       <service name="VIGOR2927L-VIRTUAL" interval="300000" user-defined="false" status="on">
          <parameter key="oid" value=".1.3.6.1.2.1.1.5.0 "/>
          <parameter key="operator" value="="/>
