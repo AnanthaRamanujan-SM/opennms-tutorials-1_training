@@ -20,17 +20,15 @@ Enjoy &#128512;
 ## Contents
 [session1](../main/session1/) Introduction to OpenNMS
 
-[session2](../main/session2/) Introduction to Provisioning OpenNMS
+[session2](../main/session2/) OpenNMS Configuration, Provisioning, Service and Web Site Monitoring
 
-[session3](../main/session3/) Introduction to Alarms and Events
+[session3](../main/session3/) Introduction to Events, Alarms and Traps
 
-[session4](../main/session4/) Database Event and Alarm Enrichment and Jboss (Drools) Rules
+[session4](../main/session4/) Database Event and Alarm Enrichment with the Event Translator and Jboss Rules (Drools)
 
-[session5](../main/session5/) Performance Data Collection 1
+[session5](../main/session5/) Performance Data Collection using SNMP
 
-[session6](../main/session6/) Performance Data Collection 2
-
-[session7](../main/session7/) Additional Topics and wrap up
+[session6](../main/session6/) Full Worked Example, Summary adn Wrap Up
 
 [Extra Examples](../main/extraExamples/) Additional Examples in support of the tutorials
 
